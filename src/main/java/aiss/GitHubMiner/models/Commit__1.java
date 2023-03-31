@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Commit__1 {
 
     @JsonProperty("author")
-    private Author author;
+    private Committer author;
     @JsonProperty("committer")
     private Committer committer;
     @JsonProperty("message")
@@ -37,12 +37,12 @@ public class Commit__1 {
     private Integer commentCount;
 
     @JsonProperty("author")
-    public Author getAuthor() {
+    public Committer getAuthor() {
         return author;
     }
 
     @JsonProperty("author")
-    public void setAuthor(Author author) {
+    public void setAuthor(Committer author) {
         this.author = author;
     }
 
