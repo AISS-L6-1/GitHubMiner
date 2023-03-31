@@ -14,6 +14,12 @@ class projectServiceTest {
     @Test
     @DisplayName("Test de getProjectFromId")
     void getProjectFromId() {
-        System.out.println(projectService.getProjectFromId(13398590));
+        System.out.println(projectService.getProjectFromId(1148753));
+    }
+
+    @Test
+    @DisplayName("Test de getProjectFromOwnerRepo")
+    void getProjectFromOwnerRepo() {
+        System.out.println(projectService.getProjectFromOwnerRepo("spring-projects", "spring-framework"));
     }
 }
