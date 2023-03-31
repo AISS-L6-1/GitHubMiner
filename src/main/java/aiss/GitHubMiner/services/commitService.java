@@ -35,7 +35,7 @@ public class commitService {
                 url.concat("?maxPages=" + maxPages);
             }
         }
-        String token = "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";
+        String token = "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";
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Commit> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
