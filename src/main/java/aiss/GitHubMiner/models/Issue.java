@@ -36,9 +36,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "reactions",
     "timeline_url",
     "performed_via_github_app",
-    "state_reason",
-    "draft",
-    "pull_request"
+    "state_reason"//,
+    //"draft",
+    //"pull_request"
 })
 @Generated("jsonschema2pojo")
 public class Issue {
@@ -97,9 +97,9 @@ public class Issue {
     public Object performedViaGithubApp;
     @JsonProperty("state_reason")
     public Object stateReason;
-    @JsonProperty("draft")
-    public Boolean draft;
-    @JsonProperty("pull_request")
-    public PullRequest pullRequest;
+//    @JsonProperty("draft")
+//    public Boolean draft;
+//    @JsonProperty("pull_request")
+//    public PullRequest pullRequest;
 
 }
