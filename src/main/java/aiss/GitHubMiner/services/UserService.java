@@ -40,7 +40,7 @@ public class UserService {
             }
         }
 
-        String token = "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";
+        String token = "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";
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<User[]> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
@@ -56,13 +56,20 @@ public class UserService {
             siguientePagina = utils.funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
+
+        for(User u:userList) {
+            User aux = getUser(u.getUsername());
+            String name = aux.getName();
+            u.setName(name);
+        }
+
         System.out.println(userList.size());
         return userList;
     }
 
     public User getUser(String username) {
         String url = "https://api.github.com/users/"+username;
-        String token = "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";
+        String token = "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";
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<User> httpRequest = new HttpEntity<>(null, httpHeadersRequest);

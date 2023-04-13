@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "url",
     "total_count",
-    "1",
-    "01",
+    "+1",
+    "-1",
     "laugh",
     "hooray",
     "confused",
