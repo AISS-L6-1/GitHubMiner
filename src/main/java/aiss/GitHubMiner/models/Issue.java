@@ -36,70 +36,158 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "reactions",
     "timeline_url",
     "performed_via_github_app",
-    "state_reason"//,
-    //"draft",
-    //"pull_request"
+    "state_reason"
 })
 @Generated("jsonschema2pojo")
 public class Issue {
-
-    @JsonProperty("url")
-    public String url;
-    @JsonProperty("repository_url")
-    public String repositoryUrl;
-    @JsonProperty("labels_url")
-    public String labelsUrl;
-    @JsonProperty("comments_url")
-    public String commentsUrl;
-    @JsonProperty("events_url")
-    public String eventsUrl;
-    @JsonProperty("html_url")
-    public String htmlUrl;
     @JsonProperty("id")//1 id
-    public Integer id;
+    public String id;
     @JsonProperty("node_id")//2 ref_id?
     public String nodeId;
-    @JsonProperty("number")
-    public Integer number;
     @JsonProperty("title")//3 title
     public String title;
-    @JsonProperty("user")
-    public User user;
+    @JsonProperty("number")//hace falta para sacarle los comentarios
+    public Integer number;
+    @JsonProperty("user")//aunque se llame user es el autor del issue
+    public User author;
     @JsonProperty("labels")//9 tengo que sacar de la lista de labels el nombre de cada una y con eso tengo la lista de strings
     public List<Label> labels;
     @JsonProperty("state") //5 state
     public String state;
-    @JsonProperty("locked")
-    public Boolean locked;
-    @JsonProperty("assignee")
-    public Object assignee;
-    @JsonProperty("milestone")
-    public Object milestone;
-    @JsonProperty("comments")
-    public Integer comments;
+    @JsonProperty("assignee")// no he encontrado ninguno que no sea nullo pero debe ser un user
+    public User assignee;
     @JsonProperty("created_at")//6 created_at
     public String createdAt;
     @JsonProperty("updated_at")//7 updated_at
     public String updatedAt;
     @JsonProperty("closed_at")//8 closed_at
     public Object closedAt;
-    @JsonProperty("author_association")
-    public String authorAssociation;
-    @JsonProperty("active_lock_reason")
-    public Object activeLockReason;
     @JsonProperty("body")//4 description
     public String body;
     @JsonProperty("reactions")//upvotes / downvotes
     public Reactions reactions;
-    @JsonProperty("timeline_url")
-    public String timelineUrl;
-    @JsonProperty("performed_via_github_app")
-    public Object performedViaGithubApp;
-    @JsonProperty("state_reason")
-    public Object stateReason;
-//    @JsonProperty("draft")
-//    public Boolean draft;
-//    @JsonProperty("pull_request")
-//    public PullRequest pullRequest;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public List<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Label> labels) {
+        this.labels = labels;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public User getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(User assignee) {
+        this.assignee = assignee;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Object getClosedAt() {
+        return closedAt;
+    }
+
+    public void setClosedAt(Object closedAt) {
+        this.closedAt = closedAt;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public Reactions getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(Reactions reactions) {
+        this.reactions = reactions;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Issue{" +
+                "id='" + id + '\'' +
+                ", nodeId='" + nodeId + '\'' +
+                ", title='" + title + '\'' +
+                ", number=" + number +
+                ", author=" + author +
+                ", labels=" + labels +
+                ", state='" + state + '\'' +
+                ", assignee=" + assignee +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", closedAt=" + closedAt +
+                ", body='" + body + '\'' +
+                ", reactions=" + reactions +
+                '}';
+    }
 }
