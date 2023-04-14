@@ -16,7 +16,7 @@ public class projectService {
 
     public Project getProjectFromId(Integer id) {
         String url = "https://api.github.com/projects" + "/" + id.toString();
-        String token = "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";
+        String token = "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";
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Project> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
@@ -26,7 +26,7 @@ public class projectService {
 
     public Project getProjectFromOwnerRepo(String owner, String repo) {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo;
-        String token = "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";
+        String token = "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";
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Project> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
