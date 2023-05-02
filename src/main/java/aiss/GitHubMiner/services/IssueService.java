@@ -24,22 +24,19 @@ public class IssueService {
     RestTemplate restTemplate;
     @Autowired
     CommentService commentService;
+    @Autowired
+    UserService userService;
 
     public List<IssueDef> getAllIssues(String owner, String repo, Integer sinceDays, Integer maxPages)
             throws HttpClientErrorException {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo + "/issues";
 
-        if (sinceDays != null && maxPages != null) {
+        if (sinceDays != null) {
             LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-            url = url.concat("?created_after=" + since + "&" + "maxPages=" + maxPages);
-        } else {
-            if (sinceDays != null) {
-                LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-                url = url.concat("?created_after=" + since);
-            }
-            else if (maxPages != null){
-                url = url.concat("?maxPages=" + maxPages);
-            }
+            url = url.concat("?since=" + since);
+        }
+        if (maxPages == null) {
+            maxPages = Integer.MAX_VALUE;
         }
 
         String token = Token.TOKEN;
@@ -55,13 +52,14 @@ public class IssueService {
         String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
         Integer page = 2;
 
-        while (siguientePagina != null && (maxPages == null ? true:false || page < maxPages)) { //compruebo que maxPages sea distinto de null para poder avanzar
+        while (siguientePagina != null && page < maxPages) { //compruebo que maxPages sea distinto de null para poder avanzar
             ResponseEntity<Issue[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Issue[].class);
             issueList.addAll(Arrays.asList(responseEntity.getBody()));
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        List<IssueDef> issueDefList = issueList.stream().map(i -> IssueDef.ofRaw(i,commentService, sinceDays, maxPages)).toList();
+        Integer finalMaxPages = maxPages;
+        List<IssueDef> issueDefList = issueList.stream().map(i -> IssueDef.ofRaw(i,commentService, userService, sinceDays, finalMaxPages)).toList();
         return issueDefList;
     }
 
@@ -69,17 +67,12 @@ public class IssueService {
             throws HttpClientErrorException {
         String issuesUrl = projectUrl + "/issues";
 
-        if (sinceDays != null && maxPages != null) {
+        if (sinceDays != null) {
             LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-            issuesUrl = issuesUrl.concat("?created_after=" + since + "&" + "maxPages=" + maxPages);
-        } else {
-            if (sinceDays != null) {
-                LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-                issuesUrl = issuesUrl.concat("?created_after=" + since);
-            }
-            else if (maxPages != null){
-                issuesUrl = issuesUrl.concat("?maxPages=" + maxPages);
-            }
+            issuesUrl = issuesUrl.concat("?since=" + since);
+        }
+        if (maxPages == null) {
+            maxPages = Integer.MAX_VALUE;
         }
 
         String token = Token.TOKEN;
@@ -95,13 +88,14 @@ public class IssueService {
         String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
         Integer page = 2;
 
-        while (siguientePagina != null && (maxPages == null ? true:false || page < maxPages)) { //compruebo que maxPages sea distinto de null para poder avanzar
+        while (siguientePagina != null && page < maxPages) { //compruebo que maxPages sea distinto de null para poder avanzar
             ResponseEntity<Issue[]> responseEntity = restTemplate.exchange(issuesUrl + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Issue[].class);
             issueList.addAll(Arrays.asList(responseEntity.getBody()));
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        List<IssueDef> issueDefList = issueList.stream().map(i -> IssueDef.ofRaw(i,commentService, sinceDays, maxPages)).toList();
+        Integer finalMaxPages = maxPages;
+        List<IssueDef> issueDefList = issueList.stream().map(i -> IssueDef.ofRaw(i,commentService, userService, sinceDays, finalMaxPages)).toList();
         return issueDefList;
     }
 

@@ -30,14 +30,13 @@ public class User {
     private String avatar_url;
     @JsonProperty("url")
     private String url;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+
 
     public void setName(String name) {
         this.name = name;
     }
 
-    private String name;
+    public String name = "placeHolder";
 
     @JsonProperty("login")
     public String getUsername() {
@@ -79,16 +78,6 @@ public class User {
         this.url = url;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
     public String getName() {
         return this.name;
     }
@@ -100,7 +89,6 @@ public class User {
                 ", id=" + id +
                 ", avatar_url='" + avatar_url + '\'' +
                 ", url='" + url + '\'' +
-                ", additionalProperties=" + additionalProperties +
                 ", name='" + name + '\'' +
                 '}';
     }
