@@ -59,7 +59,7 @@ public class Issue {
     public List<Label> labels;
     @JsonProperty("state") //5 state
     public String state;
-    @JsonProperty("assignee")// no he encontrado ninguno que no sea nullo pero debe ser un user
+    @JsonProperty("assignee")// no he encontrado ninguno que no sea nulo pero debe ser un user
     public User assignee;
     @JsonProperty("created_at")//6 created_at
     public String createdAt;
