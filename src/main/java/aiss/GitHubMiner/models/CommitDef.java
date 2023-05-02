@@ -12,10 +12,10 @@ public class CommitDef {
     private LocalDate authoredDate;
     private String commiterName;
     private String commiterEmail;
-    private LocalDate commitedDate;
+    private String commitedDate;
     private String url;
 
-    public CommitDef(String id, String tittle, String message, String authorName, String authorEmail, LocalDate authoredDate, String commiterName, String commiterEmail, LocalDate commitedDate, String url) {
+    public CommitDef(String id, String tittle, String message, String authorName, String authorEmail, LocalDate authoredDate, String commiterName, String commiterEmail, String commitedDate, String url) {
         this.id = id;
         this.tittle = tittle;
         this.message = message;
@@ -92,11 +92,11 @@ public class CommitDef {
         this.commiterEmail = commiterEmail;
     }
 
-    public LocalDate getCommitedDate() {
+    public String getCommitedDate() {
         return commitedDate;
     }
 
-    public void setCommitedDate(LocalDate commitedDate) {
+    public void setCommitedDate(String commitedDate) {
         this.commitedDate = commitedDate;
     }
 

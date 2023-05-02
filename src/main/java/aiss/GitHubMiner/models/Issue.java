@@ -46,6 +46,11 @@ public class Issue {
     public String nodeId;
     @JsonProperty("title")//3 title
     public String title;
+
+    @JsonProperty("comments_url")//3 title
+    public String comments_url;
+    @JsonProperty("comments")//numero de comentarios, si es 0 no buscaremos los comentarios
+    public Integer comments;
     @JsonProperty("number")//hace falta para sacarle los comentarios
     public Integer number;
     @JsonProperty("user")//aunque se llame user es el autor del issue
@@ -89,6 +94,22 @@ public class Issue {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getComments_url() {
+        return comments_url;
+    }
+
+    public void setComments_url(String comments_url) {
+        this.comments_url = comments_url;
+    }
+
+    public Integer getComments() {
+        return comments;
+    }
+
+    public void setComments(Integer comments) {
+        this.comments = comments;
     }
 
     public Integer getNumber() {
@@ -171,13 +192,14 @@ public class Issue {
         this.reactions = reactions;
     }
 
-
     @Override
     public String toString() {
         return "Issue{" +
                 "id='" + id + '\'' +
                 ", nodeId='" + nodeId + '\'' +
                 ", title='" + title + '\'' +
+                ", comments_url='" + comments_url + '\'' +
+                ", comments=" + comments +
                 ", number=" + number +
                 ", author=" + author +
                 ", labels=" + labels +

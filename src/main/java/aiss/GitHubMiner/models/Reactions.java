@@ -31,10 +31,10 @@ public class Reactions {
     private String url;
     @JsonProperty("total_count")
     private Integer totalCount;
-    @JsonProperty("1")
-    private Integer _1; //TODO: ver para poner +
-    @JsonProperty("01")
-    private Integer _01; //TODO: ver para poner -
+    @JsonProperty("+1")
+    private Integer upvotes; //TODO: ver para poner +
+    @JsonProperty("-1")
+    private Integer downvotes; //TODO: ver para poner -
     @JsonProperty("laugh")
     private Integer laugh;
     @JsonProperty("hooray")
@@ -47,8 +47,6 @@ public class Reactions {
     private Integer rocket;
     @JsonProperty("eyes")
     private Integer eyes;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("url")
     public String getUrl() {
@@ -70,24 +68,24 @@ public class Reactions {
         this.totalCount = totalCount;
     }
 
-    @JsonProperty("1")
-    public Integer get1() {
-        return _1;
+    @JsonProperty("+1")
+    public Integer getUpvotes() {
+        return upvotes;
     }
 
-    @JsonProperty("1")
-    public void set1(Integer _1) {
-        this._1 = _1;
+    @JsonProperty("+1")
+    public void set1(Integer upvotes) {
+        this.upvotes = upvotes;
     }
 
-    @JsonProperty("01")
-    public Integer get01() {
-        return _01;
+    @JsonProperty("-1")
+    public Integer getDownvotes() {
+        return downvotes;
     }
 
-    @JsonProperty("01")
-    public void set01(Integer _01) {
-        this._01 = _01;
+    @JsonProperty("-1")
+    public void set01(Integer downvotes) {
+        this.downvotes = downvotes;
     }
 
     @JsonProperty("laugh")
@@ -150,70 +148,19 @@ public class Reactions {
         this.eyes = eyes;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Reactions.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("url");
-        sb.append('=');
-        sb.append(((this.url == null)?"<null>":this.url));
-        sb.append(',');
-        sb.append("totalCount");
-        sb.append('=');
-        sb.append(((this.totalCount == null)?"<null>":this.totalCount));
-        sb.append(',');
-        sb.append("_1");
-        sb.append('=');
-        sb.append(((this._1 == null)?"<null>":this._1));
-        sb.append(',');
-        sb.append("_01");
-        sb.append('=');
-        sb.append(((this._01 == null)?"<null>":this._01));
-        sb.append(',');
-        sb.append("laugh");
-        sb.append('=');
-        sb.append(((this.laugh == null)?"<null>":this.laugh));
-        sb.append(',');
-        sb.append("hooray");
-        sb.append('=');
-        sb.append(((this.hooray == null)?"<null>":this.hooray));
-        sb.append(',');
-        sb.append("confused");
-        sb.append('=');
-        sb.append(((this.confused == null)?"<null>":this.confused));
-        sb.append(',');
-        sb.append("heart");
-        sb.append('=');
-        sb.append(((this.heart == null)?"<null>":this.heart));
-        sb.append(',');
-        sb.append("rocket");
-        sb.append('=');
-        sb.append(((this.rocket == null)?"<null>":this.rocket));
-        sb.append(',');
-        sb.append("eyes");
-        sb.append('=');
-        sb.append(((this.eyes == null)?"<null>":this.eyes));
-        sb.append(',');
-        sb.append("additionalProperties");
-        sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return "Reactions{" +
+                "url='" + url + '\'' +
+                ", totalCount=" + totalCount +
+                ", upvotes=" + upvotes +
+                ", downvotes=" + downvotes +
+                ", laugh=" + laugh +
+                ", hooray=" + hooray +
+                ", confused=" + confused +
+                ", heart=" + heart +
+                ", rocket=" + rocket +
+                ", eyes=" + eyes +
+                '}';
     }
-
 }

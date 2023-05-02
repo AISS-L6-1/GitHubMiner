@@ -19,7 +19,7 @@ public class adaptadores {
         LocalDate authoredDate = dateParse(commitRaw.getCommit().getAuthor().getDate());
         String commiterName = commitRaw.getCommit().getCommitter().getName();
         String commiterEmail = commitRaw.getCommit().getCommitter().getEmail();
-        LocalDate commitedDate = dateParse(commitRaw.getCommit().getCommitter().getDate());
+        String commitedDate = commitRaw.getCommit().getCommitter().getDate();
         String url = commitRaw.getUrl();
         return new CommitDef(id, tittle, message, authorName, authorEmail, authoredDate, commiterName, commiterEmail, commitedDate, url);
     }

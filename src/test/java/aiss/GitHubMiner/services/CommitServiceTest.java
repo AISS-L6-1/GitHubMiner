@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class commitServiceTest {
+class CommitServiceTest {
     @Autowired
-    commitService commitService;
+    CommitService commitService;
     @Test
     @DisplayName("Test de getAllCommits")
     void getAllCommits() {

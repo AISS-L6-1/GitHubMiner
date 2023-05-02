@@ -95,34 +95,13 @@ public class User {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("username");
-        sb.append('=');
-        sb.append(((this.username == null)?"<null>":this.username));
-        sb.append(',');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("avatar_url");
-        sb.append('=');
-        sb.append(((this.avatar_url == null)?"<null>":this.avatar_url+ " "));
-        sb.append(',');
-        sb.append("url");
-        sb.append('=');
-        sb.append(((this.url == null)?"<null>":this.url+" "));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return "User{" +
+                "username='" + username + '\'' +
+                ", id=" + id +
+                ", avatar_url='" + avatar_url + '\'' +
+                ", url='" + url + '\'' +
+                ", additionalProperties=" + additionalProperties +
+                ", name='" + name + '\'' +
+                '}';
     }
-
 }

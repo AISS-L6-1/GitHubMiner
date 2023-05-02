@@ -5,12 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-class projectServiceTest {
+class ProjectServiceTest {
 
     @Autowired
-    projectService projectService;
+    ProjectService projectService;
     @Test
     @DisplayName("Test de getProjectFromId")
     void getProjectFromId() {
@@ -20,6 +19,6 @@ class projectServiceTest {
     @Test
     @DisplayName("Test de getProjectFromOwnerRepo")
     void getProjectFromOwnerRepo() {
-        System.out.println(projectService.getProjectFromOwnerRepo("spring-projects", "spring-framework"));
+        System.out.println(projectService.getProjectFromOwnerRepo("spring-projects", "spring-framework", 5,5,2));
     }
 }

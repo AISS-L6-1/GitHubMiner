@@ -29,14 +29,14 @@ public class UserService {
         // y en funcion de si existe uno o ambos añadir la ? en la posicion correspondiente
         if (sinceDays != null && maxPages != null) {
             LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-            url.concat("?since=" + since + "&" + "maxPages=" + maxPages);
+            url = url.concat("?since=" + since + "&" + "maxPages=" + maxPages);
         } else {
             if (sinceDays != null) {
                 LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-                url.concat("?since=" + since);
+                url = url.concat("?since=" + since);
             }
             else {
-                url.concat("?maxPages=" + maxPages);
+                url = url.concat("?maxPages=" + maxPages);
             }
         }
 
