@@ -1,6 +1,8 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.User;
+import aiss.GitHubMiner.utils.Token;
+import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,20 +42,20 @@ public class UserService {
             }
         }
 
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<User[]> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
         ResponseEntity<User[]> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, User[].class);
         HttpHeaders httpResponseHeaders = httpResponse.getHeaders();
 
-        String siguientePagina = utils.funciones.getNextPageUrl(httpResponseHeaders);
+        String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
         Integer page = 1;
         List<User> userList = new ArrayList<>();
         while (siguientePagina != null && (maxPages != null && page < maxPages)) { //hay que comprobar que maxPages es diferente de null para poder evaluar <, funciona gracias a la evaluacion perezosa
             ResponseEntity<User[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, User[].class);
             userList.addAll(Arrays.asList(responseEntity.getBody()));
-            siguientePagina = utils.funciones.getNextPageUrl(responseEntity.getHeaders());
+            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
 
@@ -69,7 +71,7 @@ public class UserService {
 
     public User getUser(String username) {
         String url = "https://api.github.com/users/"+username;
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<User> httpRequest = new HttpEntity<>(null, httpHeadersRequest);

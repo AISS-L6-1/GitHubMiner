@@ -1,4 +1,4 @@
-package utils;
+package aiss.GitHubMiner.utils;
 
 import aiss.GitHubMiner.models.Commit;
 import aiss.GitHubMiner.models.CommitDef;

@@ -1,6 +1,8 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.Comment;
+import aiss.GitHubMiner.utils.funciones;
+import aiss.GitHubMiner.utils.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +41,7 @@ public class CommentService {
             }
         }
 
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Comment[]> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
@@ -49,13 +51,13 @@ public class CommentService {
         List<Comment> commentList = new ArrayList<>();
         commentList.addAll(Arrays.asList(httpResponse.getBody()));
 
-        String siguientePagina = utils.funciones.getNextPageUrl(httpResponseHeaders);
+        String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
         Integer page = 2;
 
         while (siguientePagina != null && (maxPages == null ? true:false || page < maxPages)) { //compruebo que maxPages sea distinto de null para poder avanzar
             ResponseEntity<Comment[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Comment[].class);
             commentList.addAll(Arrays.asList(responseEntity.getBody()));
-            siguientePagina = utils.funciones.getNextPageUrl(responseEntity.getHeaders());
+            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
         return commentList;
@@ -65,7 +67,7 @@ public class CommentService {
     public List<Comment> getAllCommentsFromIssue(String commentsUrl)
             throws HttpClientErrorException {
 
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Comment[]> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
@@ -75,13 +77,13 @@ public class CommentService {
         List<Comment> commentList = new ArrayList<>();
         commentList.addAll(Arrays.asList(httpResponse.getBody()));
 
-        String siguientePagina = utils.funciones.getNextPageUrl(httpResponseHeaders);
+        String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
         Integer page = 2;
 
         while (siguientePagina != null) { //compruebo que maxPages sea distinto de null para poder avanzar
             ResponseEntity<Comment[]> responseEntity = restTemplate.exchange(commentsUrl + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Comment[].class);
             commentList.addAll(Arrays.asList(responseEntity.getBody()));
-            siguientePagina = utils.funciones.getNextPageUrl(responseEntity.getHeaders());
+            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
         return commentList;

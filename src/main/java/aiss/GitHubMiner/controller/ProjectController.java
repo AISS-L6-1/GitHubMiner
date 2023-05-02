@@ -23,7 +23,7 @@ public class ProjectController {
     }
 
     //GET http://localhost:8080/api/projects/{id}
-    @GetMapping("/{id}")
+    @GetMapping("/{owner}/{repoName}")
     public ProjectDef findOne(@PathVariable String owner,@PathVariable String repoName , @RequestParam("sinceIssues") Integer sinceIssues, @RequestParam("sinceCommits") Integer sinceCommits, @RequestParam("maxPages") Integer maxPages) {
         ProjectDef project = projectService.getProjectFromOwnerRepo(owner, repoName, sinceIssues, sinceCommits, maxPages);
         return project;

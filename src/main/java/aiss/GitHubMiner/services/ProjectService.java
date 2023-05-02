@@ -2,6 +2,8 @@ package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.Project;
 import aiss.GitHubMiner.transformers.ProjectDef;
+import aiss.GitHubMiner.utils.Token;
+import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -33,18 +35,18 @@ public class ProjectService {
         // y en funcion de si existe uno o ambos añadir la ? en la posicion correspondiente
         if (sinceDays != null && maxPages != null) {
             LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-            url = url.concat("?created_after=" + since + "&" + "maxPages=" + maxPages);
+            url = url.concat("?since=" + since + "&" + "maxPages=" + maxPages);
         } else {
             if (sinceDays != null) {
                 LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-                url = url.concat("?created_after=" + since);
+                url = url.concat("?since=" + since);
             }
             else if (maxPages != null){
                 url = url.concat("?maxPages=" + maxPages);
             }
         }
 
-        String token = "glpat-yzJhzxFSm4fasdqqwCKD";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Project[]> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
@@ -54,13 +56,13 @@ public class ProjectService {
         List<Project> projectList = new ArrayList<>();
         projectList.addAll(Arrays.asList(httpResponse.getBody()));
 
-        String siguientePagina = utils.funciones.getNextPageUrl(httpResponseHeaders);
+        String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
         Integer page = 2;
 
         while (siguientePagina != null && (maxPages == null ? true:false || page < maxPages)) { //compruebo que maxPages sea distinto de null para poder avanzar
             ResponseEntity<Project[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Project[].class);
             projectList.addAll(Arrays.asList(responseEntity.getBody()));
-            siguientePagina = utils.funciones.getNextPageUrl(responseEntity.getHeaders());
+            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
         List<ProjectDef> projectDefList = projectList.stream().map(p -> ProjectDef.ofRaw(p,commitService,issueService,sinceIssues, sinceCommits,  maxPages)).toList();
@@ -69,7 +71,7 @@ public class ProjectService {
 
     public Project getProjectFromId(Integer id) {
         String url = "https://api.github.com/projects" + "/" + id.toString();
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Project> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
@@ -79,7 +81,7 @@ public class ProjectService {
 
     public ProjectDef getProjectFromOwnerRepo(String owner, String repo, Integer sinceIssues, Integer sinceCommits, Integer maxPages) {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo;
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Project> httpRequest = new HttpEntity<>(null, httpHeadersRequest);

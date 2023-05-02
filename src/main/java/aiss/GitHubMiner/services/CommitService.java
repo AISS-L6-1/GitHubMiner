@@ -1,8 +1,10 @@
 package aiss.GitHubMiner.services;
 
-import aiss.GitHubMiner.models.Comment;
 import aiss.GitHubMiner.models.Commit;
 import aiss.GitHubMiner.models.CommitDef;
+import aiss.GitHubMiner.utils.Token;
+import aiss.GitHubMiner.utils.adaptadores;
+import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -38,21 +40,21 @@ public class CommitService {
             }
         }
 
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Commit> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
         ResponseEntity<Commit[]> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, Commit[].class);
-        String siguientePagina = utils.funciones.getNextPageUrl(httpResponse.getHeaders());
+        String siguientePagina = funciones.getNextPageUrl(httpResponse.getHeaders());
         Integer page = 1;
         List<Commit> commitList = new ArrayList<>();
         while (siguientePagina != null && (maxPages != null && page < maxPages)) {
             ResponseEntity<Commit[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Commit[].class);
             commitList.addAll(Arrays.asList(responseEntity.getBody()));
-            siguientePagina = utils.funciones.getNextPageUrl(responseEntity.getHeaders());
+            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commitList.stream().map(commit -> utils.adaptadores.transforma(commit)).toList();
+        return commitList.stream().map(commit -> adaptadores.transforma(commit)).toList();
     }
 
 
@@ -74,20 +76,20 @@ public class CommitService {
         }
 
 
-        String token = "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";
+        String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Commit> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
         ResponseEntity<Commit[]> httpResponse = restTemplate.exchange(commitsUrl, HttpMethod.GET, httpRequest, Commit[].class);
-        String siguientePagina = utils.funciones.getNextPageUrl(httpResponse.getHeaders());
+        String siguientePagina = funciones.getNextPageUrl(httpResponse.getHeaders());
         Integer page = 1;
         List<Commit> commitList = new ArrayList<>();
         while (siguientePagina != null && (maxPages != null && page < maxPages)) {
             ResponseEntity<Commit[]> responseEntity = restTemplate.exchange(commitsUrl + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Commit[].class);
             commitList.addAll(Arrays.asList(responseEntity.getBody()));
-            siguientePagina = utils.funciones.getNextPageUrl(responseEntity.getHeaders());
+            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commitList.stream().map(commit -> utils.adaptadores.transforma(commit)).toList();
+        return commitList.stream().map(commit -> adaptadores.transforma(commit)).toList();
     }
 }
