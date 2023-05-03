@@ -27,47 +27,43 @@ public class ProjectService {
     @Autowired
     IssueService issueService;
 
-    public List<ProjectDef> getAllProjects(Integer sinceDays, Integer sinceIssues, Integer sinceCommits, Integer maxPages)
-            throws HttpClientErrorException {
-        String url = "https://gitlab.com/api/v4/projects";
-
-        //como queremos que nuestros parametros(sinceDays y maxPages) sean opcionales, debemos comprobar cual de ellos no es nulo
-        // y en funcion de si existe uno o ambos añadir la ? en la posicion correspondiente
-        if (sinceDays != null && maxPages != null) {
-            LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-            url = url.concat("?since=" + since + "&" + "maxPages=" + maxPages);
-        } else {
-            if (sinceDays != null) {
-                LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-                url = url.concat("?since=" + since);
-            }
-            else if (maxPages != null){
-                url = url.concat("?maxPages=" + maxPages);
-            }
-        }
-
-        String token = Token.TOKEN;
-        HttpHeaders httpHeadersRequest = new HttpHeaders();
-        httpHeadersRequest.setBearerAuth(token);
-        HttpEntity<Project[]> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
-        ResponseEntity<Project[]> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, Project[].class);
-        HttpHeaders httpResponseHeaders = httpResponse.getHeaders();
-
-        List<Project> projectList = new ArrayList<>();
-        projectList.addAll(Arrays.asList(httpResponse.getBody()));
-
-        String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
-        Integer page = 2;
-
-        while (siguientePagina != null && (maxPages == null ? true:false || page < maxPages)) { //compruebo que maxPages sea distinto de null para poder avanzar
-            ResponseEntity<Project[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Project[].class);
-            projectList.addAll(Arrays.asList(responseEntity.getBody()));
-            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
-            page++;
-        }
-        List<ProjectDef> projectDefList = projectList.stream().map(p -> ProjectDef.ofRaw(p,commitService,issueService,sinceIssues, sinceCommits,  maxPages)).toList();
-        return projectDefList;
-    }
+//    public List<ProjectDef> getAllProjects(Integer sinceDays, Integer sinceIssues, Integer sinceCommits, Integer maxPages)
+//            throws HttpClientErrorException {
+//        String url = "https://api.github.com/projects";
+//
+//        //como queremos que nuestros parametros(sinceDays y maxPages) sean opcionales, debemos comprobar cual de ellos no es nulo
+//        // y en funcion de si existe uno o ambos añadir la ? en la posicion correspondiente
+//        if (sinceDays != null) {
+//            LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
+//            url = url.concat("?since=" + since);
+//        }
+//        if (maxPages == null) {
+//            maxPages = Integer.MAX_VALUE;
+//        }
+//
+//        String token = Token.TOKEN;
+//        HttpHeaders httpHeadersRequest = new HttpHeaders();
+//        httpHeadersRequest.setBearerAuth(token);
+//        HttpEntity<Project[]> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
+//        ResponseEntity<Project[]> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, Project[].class);
+//        HttpHeaders httpResponseHeaders = httpResponse.getHeaders();
+//
+//        List<Project> projectList = new ArrayList<>();
+//        projectList.addAll(Arrays.asList(httpResponse.getBody()));
+//
+//        String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
+//        Integer page = 2;
+//
+//        while (siguientePagina != null && page < maxPages) { //compruebo que maxPages sea distinto de null para poder avanzar
+//            ResponseEntity<Project[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Project[].class);
+//            projectList.addAll(Arrays.asList(responseEntity.getBody()));
+//            siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
+//            page++;
+//        }
+//        Integer finalMaxPages = maxPages;
+//        List<ProjectDef> projectDefList = projectList.stream().map(p -> ProjectDef.ofRaw(p,commitService,issueService,sinceIssues, sinceCommits, finalMaxPages)).toList();
+//        return projectDefList;
+//    }
 
     public Project getProjectFromId(Integer id) {
         String url = "https://api.github.com/projects" + "/" + id.toString();

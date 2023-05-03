@@ -1,6 +1,7 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.Comment;
+import aiss.GitHubMiner.transformers.CommentDef;
 import aiss.GitHubMiner.utils.funciones;
 import aiss.GitHubMiner.utils.Token;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,12 @@ public class CommentService {
             throws HttpClientErrorException {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo + "/issues/comments";
 
-        if (sinceDays != null && maxPages != null) {
+        if (sinceDays != null) {
             LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-            url.concat("?since=" + since + "&" + "maxPages=" + maxPages);
-        } else {
-            if (sinceDays != null) {
-                LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-                url.concat("?since=" + since);
-            }
-            else if (maxPages != null){
-                url.concat("?maxPages=" + maxPages);
-            }
+            url = url.concat("?since=" + since);
+        }
+        if (maxPages == null) {
+            maxPages = Integer.MAX_VALUE;
         }
 
         String token = Token.TOKEN;
@@ -54,7 +50,7 @@ public class CommentService {
         String siguientePagina = funciones.getNextPageUrl(httpResponseHeaders);
         Integer page = 2;
 
-        while (siguientePagina != null && (maxPages == null ? true:false || page < maxPages)) { //compruebo que maxPages sea distinto de null para poder avanzar
+        while (siguientePagina != null &&  page < maxPages) { //compruebo que maxPages sea distinto de null para poder avanzar
             ResponseEntity<Comment[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Comment[].class);
             commentList.addAll(Arrays.asList(responseEntity.getBody()));
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
@@ -63,8 +59,10 @@ public class CommentService {
         return commentList;
     }
 
+    @Autowired
+    UserService userService;
     //devuelve todos los comentarios de un Issue dado, el parametro es una propiedad de issue que nos facilit el acceso a los comments
-    public List<Comment> getAllCommentsFromIssue(String commentsUrl)
+    public List<CommentDef> getAllCommentsFromIssue(String commentsUrl)
             throws HttpClientErrorException {
 
         String token = Token.TOKEN;
@@ -86,6 +84,6 @@ public class CommentService {
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commentList;
+        return commentList.stream().map(comment -> CommentDef.ofRaw(comment, userService)).toList();
     }
 }

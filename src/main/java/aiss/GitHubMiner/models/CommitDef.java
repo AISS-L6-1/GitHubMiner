@@ -2,6 +2,7 @@ package aiss.GitHubMiner.models;
 
 import java.time.LocalDate;
 import java.util.Date;
+import static aiss.GitHubMiner.utils.funciones.*;
 
 public class CommitDef {
     private String id;
@@ -14,6 +15,20 @@ public class CommitDef {
     private String commiterEmail;
     private String commitedDate;
     private String url;
+
+    public static CommitDef ofRaw(Commit commitRaw) {
+        String id = commitRaw.getSha();
+        String message = commitRaw.getCommit().getMessage();
+        String tittle = titleFromMessage(message);
+        String authorName = commitRaw.getCommit().getAuthor().getName();
+        String authorEmail = commitRaw.getCommit().getAuthor().getEmail();
+        LocalDate authoredDate = dateParse(commitRaw.getCommit().getAuthor().getDate());
+        String commiterName = commitRaw.getCommit().getCommitter().getName();
+        String commiterEmail = commitRaw.getCommit().getCommitter().getEmail();
+        String commitedDate = commitRaw.getCommit().getCommitter().getDate();
+        String url = commitRaw.getUrl();
+        return new CommitDef(id, tittle, message, authorName, authorEmail, authoredDate, commiterName, commiterEmail, commitedDate, url);
+    }
 
     public CommitDef(String id, String tittle, String message, String authorName, String authorEmail, LocalDate authoredDate, String commiterName, String commiterEmail, String commitedDate, String url) {
         this.id = id;

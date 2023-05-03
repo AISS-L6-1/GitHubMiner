@@ -3,7 +3,6 @@ package aiss.GitHubMiner.services;
 import aiss.GitHubMiner.models.Commit;
 import aiss.GitHubMiner.models.CommitDef;
 import aiss.GitHubMiner.utils.Token;
-import aiss.GitHubMiner.utils.adaptadores;
 import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -28,33 +27,30 @@ public class CommitService {
             throws HttpClientErrorException {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo + "/commits";
 
-        if (sinceDays != null && maxPages != null) {
+        if (sinceDays != null) {
             LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-            url = url.concat("?since=" + since + "&" + "maxPages=" + maxPages);
-        } else {
-            if (sinceDays != null) {
-                LocalDateTime since = LocalDateTime.now().minusDays(sinceDays);
-                url = url.concat("?since=" + since);
-            } else {
-                url = url.concat("?maxPages=" + maxPages);
-            }
+            url = url.concat("?since=" + since);
+        }
+        if (maxPages == null) {
+            maxPages = Integer.MAX_VALUE;
         }
 
         String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Commit> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
-        ResponseEntity<Commit[]> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, Commit[].class);
-        String siguientePagina = funciones.getNextPageUrl(httpResponse.getHeaders());
-        Integer page = 1;
         List<Commit> commitList = new ArrayList<>();
-        while (siguientePagina != null && (maxPages != null && page < maxPages)) {
+        ResponseEntity<Commit[]> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, Commit[].class);
+        commitList.addAll(Arrays.asList(httpResponse.getBody()));
+        String siguientePagina = funciones.getNextPageUrl(httpResponse.getHeaders());
+        Integer page = 2;
+        while (siguientePagina != null && page < maxPages) {
             ResponseEntity<Commit[]> responseEntity = restTemplate.exchange(url + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Commit[].class);
             commitList.addAll(Arrays.asList(responseEntity.getBody()));
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commitList.stream().map(commit -> adaptadores.transforma(commit)).toList();
+        return commitList.stream().map(commit -> CommitDef.ofRaw(commit)).toList();
     }
 
 
@@ -63,16 +59,12 @@ public class CommitService {
 
         String commitsUrl = projectUrl +"/commits";
 
-        if (sinceCommits != null && maxPages != null) {
+        if (sinceCommits != null) {
             LocalDateTime since = LocalDateTime.now().minusDays(sinceCommits);
-            commitsUrl = commitsUrl.concat("?since=" + since + "&" + "maxPages=" + maxPages);
-        } else {
-            if (sinceCommits != null) {
-                LocalDateTime since = LocalDateTime.now().minusDays(sinceCommits);
-                commitsUrl = commitsUrl.concat("?since=" + since);
-            } else {
-                commitsUrl = commitsUrl.concat("?maxPages=" + maxPages);
-            }
+            commitsUrl = commitsUrl.concat("?since=" + since);
+        }
+        if (maxPages == null) {
+            maxPages = Integer.MAX_VALUE;
         }
 
 
@@ -82,14 +74,15 @@ public class CommitService {
         HttpEntity<Commit> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
         ResponseEntity<Commit[]> httpResponse = restTemplate.exchange(commitsUrl, HttpMethod.GET, httpRequest, Commit[].class);
         String siguientePagina = funciones.getNextPageUrl(httpResponse.getHeaders());
-        Integer page = 1;
+        Integer page = 2;
         List<Commit> commitList = new ArrayList<>();
+        commitList.addAll(Arrays.asList(httpResponse.getBody()));
         while (siguientePagina != null && (maxPages != null && page < maxPages)) {
             ResponseEntity<Commit[]> responseEntity = restTemplate.exchange(commitsUrl + "?page=" + String.valueOf(page), HttpMethod.GET, httpRequest, Commit[].class);
             commitList.addAll(Arrays.asList(responseEntity.getBody()));
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commitList.stream().map(commit -> adaptadores.transforma(commit)).toList();
+        return commitList.stream().map(commit -> CommitDef.ofRaw(commit)).toList();
     }
 }

@@ -3,14 +3,17 @@ package aiss.GitHubMiner.utils;
 import org.springframework.http.HttpHeaders;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class funciones {
 
-    public static String getNextPageUrl(HttpHeaders headers) {
+        public static String getNextPageUrl(HttpHeaders headers) {
         String result = null;
 
         // If there is no link header, return null
@@ -44,6 +47,25 @@ public class funciones {
         LocalDateTime parsedDate = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
 
         return parsedDate;
+    }
+
+    public static String titleFromMessage(String message) { // <-- el tittle va a ser la primera frase del message
+        String tittle = null;
+        if (message.length() == 0 || !message.contains(".")) {
+            tittle = message;
+        } else {
+            String[] array = message.split(".");
+            if (array.length > 0) {
+                tittle = array[0];
+            }
+        }
+        return tittle;
+    }
+
+    public static LocalDate dateParse(String string) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH);
+        LocalDate localDate = LocalDate.parse(string, formatter);
+        return localDate;
     }
 }
 

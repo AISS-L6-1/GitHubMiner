@@ -14,15 +14,16 @@ public class ProjectController {
     ProjectService projectService;
 
     //GET http://localhost:8080/api/projects
-    @GetMapping
-    public List<ProjectDef> findAll(@RequestParam("since") Integer since, @RequestParam("sinceIssues") Integer sinceIssues, @RequestParam("sinceCommits") Integer sinceCommits, @RequestParam("maxPages") Integer maxPages){
-        // a partir de un projectId, dame todos los commits y todos los issues (los commits e issues se le añaden en ofRaw)
-        List<ProjectDef> projectList = projectService.getAllProjects(since, sinceIssues, sinceCommits, maxPages);
-        return projectList;
+    // Este método hay que quitarlo porque github no tiene un método para obtener todos los proyectos eh
+//    @GetMapping
+//    public List<ProjectDef> findAll(@RequestParam("since") Integer since, @RequestParam("sinceIssues") Integer sinceIssues, @RequestParam("sinceCommits") Integer sinceCommits, @RequestParam("maxPages") Integer maxPages){
+//        // a partir de un projectId, dame todos los commits y todos los issues (los commits e issues se le añaden en ofRaw)
+//        List<ProjectDef> projectList = projectService.getAllProjects(since, sinceIssues, sinceCommits, maxPages);
+//        return projectList;
+//
+//    }
 
-    }
-
-    //GET http://localhost:8080/api/projects/{id}
+    //GET http://localhost:8080/api/projects/{owner}/{repo}
     @GetMapping("/{owner}/{repoName}")
     public ProjectDef findOne(@PathVariable String owner,@PathVariable String repoName , @RequestParam("sinceIssues") Integer sinceIssues, @RequestParam("sinceCommits") Integer sinceCommits, @RequestParam("maxPages") Integer maxPages) {
         ProjectDef project = projectService.getProjectFromOwnerRepo(owner, repoName, sinceIssues, sinceCommits, maxPages);

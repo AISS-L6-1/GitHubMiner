@@ -2,8 +2,8 @@ package aiss.GitHubMiner.transformers;
 
 import aiss.GitHubMiner.models.Comment;
 import aiss.GitHubMiner.models.Issue;
-import aiss.GitHubMiner.models.User;
 import aiss.GitHubMiner.services.CommentService;
+import aiss.GitHubMiner.services.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +21,20 @@ public class IssueDef {
     private List<String> labels;
     private Integer upvotes;
     private Integer downvotes;
-    private User author;
-    private User assignee;
+    private UserDef author;
+    private UserDef assignee;
 
-    private List<Comment> listComments;
+    private List<CommentDef> listComments;
 
 
     //metodo que usaremos para unir a nuestro Issue la lista de Comments que obtenemos con getCommentsFromId. Luego se hará una lista de IssueDef que será una propiedad de ProjectDef
-    public static IssueDef ofRaw(Issue issueRaw, CommentService commentService, Integer sinceDays, Integer maxPages){
+    public static IssueDef ofRaw(Issue issueRaw, CommentService commentService, UserService userService, Integer sinceDays, Integer maxPages){
         List<Comment> commentList = new ArrayList<>();
         return new IssueDef(issueRaw.getId(), issueRaw.getNodeId(), issueRaw.getTitle(), issueRaw.getBody(),
                 issueRaw.getState(), issueRaw.getCreatedAt(), issueRaw.getUpdatedAt(), issueRaw.getClosedAt(), extractLabels(issueRaw),
-                extractUpvotes(issueRaw), extractDownvotes(issueRaw), issueRaw.getAuthor(), issueRaw.getAssignee(),
-                issueRaw.getComments() == 0 ? commentList: commentService.getAllCommentsFromIssue(issueRaw.getComments_url()));
+                extractUpvotes(issueRaw), extractDownvotes(issueRaw), userService.getUser(issueRaw.getAuthor().getUsername()),
+                issueRaw.getAssignee() == null ? null : userService.getUser(issueRaw.getAssignee().getUsername()),
+                issueRaw.getComments() == 0 ? new ArrayList<>(): commentService.getAllCommentsFromIssue(issueRaw.getComments_url()));
     }
 
     private static Integer extractDownvotes(Issue issueRaw) {
@@ -48,7 +49,7 @@ public class IssueDef {
         return issueRaw.getLabels().stream().map(l -> l.getName()).toList();
     }
 
-    public IssueDef(String id, String ref_id, String title, String description, String state, String createdAt, String updatedAt, Object closedAt, List<String> labels, Integer upvotes, Integer downvotes, User author, User assignee, List<Comment> listComments) {
+    public IssueDef(String id, String ref_id, String title, String description, String state, String createdAt, String updatedAt, Object closedAt, List<String> labels, Integer upvotes, Integer downvotes, UserDef author, UserDef assignee, List<CommentDef> listComments) {
         this.id = id;
         this.ref_id = ref_id;
         this.title = title;
@@ -153,27 +154,27 @@ public class IssueDef {
         this.downvotes = downvotes;
     }
 
-    public User getAuthor() {
+    public UserDef getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserDef author) {
         this.author = author;
     }
 
-    public User getAssignee() {
+    public UserDef getAssignee() {
         return assignee;
     }
 
-    public void setAssignee(User assignee) {
+    public void setAssignee(UserDef assignee) {
         this.assignee = assignee;
     }
 
-    public List<Comment> getListComments() {
+    public List<CommentDef> getListComments() {
         return listComments;
     }
 
-    public void setListComments(List<Comment> listComments) {
+    public void setListComments(List<CommentDef> listComments) {
         this.listComments = listComments;
     }
 

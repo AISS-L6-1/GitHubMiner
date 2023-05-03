@@ -12,6 +12,6 @@ class CommitServiceTest {
     @Test
     @DisplayName("Test de getAllCommits")
     void getAllCommits() {
-        System.out.println(commitService.getAllCommits("spring-projects", "spring-framework", 5, 5));
+        System.out.println(commitService.getAllCommits("spring-projects", "spring-framework", 4, null));
     }
 }
