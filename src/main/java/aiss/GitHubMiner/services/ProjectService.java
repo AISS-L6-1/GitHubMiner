@@ -3,20 +3,14 @@ package aiss.GitHubMiner.services;
 import aiss.GitHubMiner.models.Project;
 import aiss.GitHubMiner.transformers.ProjectDef;
 import aiss.GitHubMiner.utils.Token;
-import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class ProjectService {
@@ -65,8 +59,9 @@ public class ProjectService {
 //        return projectDefList;
 //    }
 
+    /*
     public Project getProjectFromId(Integer id) {
-        String url = "https://api.github.com/projects" + "/" + id.toString();
+        String url = "https://api.github.com/projects/" + id.toString();
         String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
@@ -74,6 +69,8 @@ public class ProjectService {
         ResponseEntity<Project> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, Project.class);
         return httpResponse.getBody();
     }
+    */
+
 
     public ProjectDef getProjectFromOwnerRepo(String owner, String repo, Integer sinceIssues, Integer sinceCommits, Integer maxPages) {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo;

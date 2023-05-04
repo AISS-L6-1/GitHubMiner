@@ -3,12 +3,10 @@ package aiss.GitHubMiner.transformers;
 
 import javax.annotation.Generated;
 
-import aiss.GitHubMiner.models.User;
-import aiss.GitHubMiner.services.UserService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.springframework.beans.factory.annotation.Autowired;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "login",
@@ -20,10 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Generated("jsonschema2pojo")
 public class UserDef {
 
-    public UserDef(Integer id, String username, String avatarUrl, String url, String name) {
+    public UserDef(Integer id, String username, String avatar_url, String url, String name) {
         this.id = id;
         this.username = username;
-        this.avatarUrl = avatarUrl;
+        this.avatar_url = avatar_url;
         this.url = url;
         this.name = name;
     }
@@ -33,8 +31,8 @@ public class UserDef {
     @JsonProperty("login")
     public String username;
 
-   @JsonProperty("avatarUrl")
-    public String avatarUrl;
+   @JsonProperty("avatar_url")
+    public String avatar_url;
 
     @JsonProperty("url")
     public String url;
@@ -59,11 +57,11 @@ public class UserDef {
     }
 
     public String getAvatarUrl() {
-        return avatarUrl;
+        return avatar_url;
     }
 
     public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+        this.avatar_url = avatarUrl;
     }
 
     public String getUrl() {
@@ -87,7 +85,7 @@ public class UserDef {
         return "UserDef{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
+                ", avatar_url='" + avatar_url + '\'' +
                 ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
                 '}';
