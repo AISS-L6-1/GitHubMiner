@@ -35,8 +35,8 @@ public class ProjectController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{owner}/{repoName}")
-    public void create(@PathVariable String owner,@PathVariable String repoName , @RequestParam("sinceIssues") Integer sinceIssues, @RequestParam("sinceCommits") Integer sinceCommits, @RequestParam("maxPages") Integer maxPages){
-        projectService.postProjectFromOwnerRepo(owner, repoName, sinceIssues, sinceCommits, maxPages);
-
+    public ProjectDef create(@PathVariable String owner,@PathVariable String repoName , @RequestParam("sinceIssues") Integer sinceIssues, @RequestParam("sinceCommits") Integer sinceCommits, @RequestParam("maxPages") Integer maxPages){
+        ProjectDef projectDef = projectService.postProjectFromOwnerRepo(owner, repoName, sinceIssues, sinceCommits, maxPages);
+        return projectDef;
     }
 }
