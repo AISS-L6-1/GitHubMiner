@@ -25,14 +25,11 @@ class UserServiceTest {
         System.out.println(users);
     }
 
-//    @Test
-//    @DisplayName("Test de getUser")
-//    void getUser() {
-//        User user = userService.getUserName("mojombo");
-//        assertNotNull(user.getId(), "The id can't be null.");
-//        assertNotSame("mojombo", user.getLogin(), "Wrong username.");
-//        assertNotSame("Tom Preston-Werner", user.getName(), "Wrong name.");
-//        assertNotNull(user.getWeb_url(), "User URL can't be null.");
-//        System.out.println(user);
-//    }
+    @Test
+    @DisplayName("Test de getUser")
+    void getUser() {
+        String userName = userService.getUserName("mojombo");
+        assertNotNull(userName, "The user name can't be null.");
+        System.out.println(userName);
+    }
 }
