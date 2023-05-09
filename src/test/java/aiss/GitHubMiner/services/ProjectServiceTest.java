@@ -22,8 +22,8 @@ class ProjectServiceTest {
         assertNotNull(projectDef.getId(), "Project id can't be null.");
         assertEquals("spring-framework", projectDef.getName(), "Wrong repository name.");
         assertNotNull(projectDef.getWeb_url(), "Project url can't be null.");
-        assertFalse(projectDef.getListCommits().isEmpty(), "The list of commits can't be empty.");
-        assertFalse(projectDef.getListIssue().isEmpty(), "The list of issues can't be empty.");
+        assertFalse(projectDef.getCommits().isEmpty(), "The list of commits can't be empty.");
+        assertFalse(projectDef.getIssues().isEmpty(), "The list of issues can't be empty.");
         System.out.println(projectDef);
 
     }

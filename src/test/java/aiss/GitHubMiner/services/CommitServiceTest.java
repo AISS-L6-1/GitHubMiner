@@ -1,6 +1,7 @@
 package aiss.GitHubMiner.services;
 
-import aiss.GitHubMiner.models.CommitDef;
+import aiss.GitHubMiner.models.Commit;
+import aiss.GitHubMiner.transformers.CommitDef;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ class CommitServiceTest {
     @Test
     @DisplayName("Test de getAllCommits")
     void getAllCommits() {
-        List<CommitDef> commitDefList = commitService.getAllCommits("spring-projects", "spring-framework", 4, 2);
+        List<Commit> commitDefList = commitService.getAllCommits("spring-projects", "spring-framework", 4, 2);
         assertFalse(commitDefList.isEmpty(), "The list of commits is empty.");
         System.out.println(commitDefList);
     }

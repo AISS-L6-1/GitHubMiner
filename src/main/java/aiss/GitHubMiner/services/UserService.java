@@ -1,6 +1,7 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.User;
+import aiss.GitHubMiner.models.User2;
 import aiss.GitHubMiner.transformers.UserDef;
 import aiss.GitHubMiner.utils.Token;
 import aiss.GitHubMiner.utils.funciones;
@@ -24,7 +25,7 @@ public class UserService {
     @Autowired
     RestTemplate restTemplate;
 
-    public List<UserDef> getAllUsers(Integer maxPages, Integer sinceDays)
+    public List<User> getAllUsers(Integer maxPages, Integer sinceDays)
             throws HttpClientErrorException {
         String url = "https://api.github.com/users";
 
@@ -56,16 +57,16 @@ public class UserService {
             page++;
         }
 
-        return userList.stream().map(user -> getUser(user.getUsername())).toList();
+        return userList;
     }
 
-    public UserDef getUser(String username) {
+    public String getUserName(String username) {
         String url = "https://api.github.com/users/" + username; // <-- este username la API de GitHub lo llama "login"
         String token = Token.TOKEN;
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
-        HttpEntity<UserDef> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
-        ResponseEntity<UserDef> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, UserDef.class);
-        return httpResponse.getBody();
+        HttpEntity<User2> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
+        ResponseEntity<User2> httpResponse = restTemplate.exchange(url, HttpMethod.GET, httpRequest, User2.class);
+        return httpResponse.getBody().getName();
     }
 }

@@ -1,7 +1,7 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.Commit;
-import aiss.GitHubMiner.models.CommitDef;
+import aiss.GitHubMiner.transformers.CommitDef;
 import aiss.GitHubMiner.utils.Token;
 import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class CommitService {
     @Autowired
     RestTemplate restTemplate;
 
-    public List<CommitDef> getAllCommits(String owner, String repo, Integer sinceDays, Integer maxPages)
+    public List<Commit> getAllCommits(String owner, String repo, Integer sinceDays, Integer maxPages)
             throws HttpClientErrorException {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo + "/commits";
 
@@ -50,11 +50,11 @@ public class CommitService {
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commitList.stream().map(commit -> CommitDef.ofRaw(commit)).toList();
+        return commitList;
     }
 
 
-    public List<CommitDef> getAllCommits(String projectUrl, Integer sinceCommits, Integer maxPages)
+    public List<Commit> getAllCommits(String projectUrl, Integer sinceCommits, Integer maxPages)
             throws HttpClientErrorException {
 
         String commitsUrl = projectUrl +"/commits";
@@ -83,6 +83,6 @@ public class CommitService {
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commitList.stream().map(commit -> CommitDef.ofRaw(commit)).toList();
+        return commitList;
     }
 }

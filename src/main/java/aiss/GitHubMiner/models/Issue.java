@@ -47,7 +47,7 @@ public class Issue {
     @JsonProperty("title")//3 title
     public String title;
 
-    @JsonProperty("comments_url")//3 title
+    @JsonProperty("comments_url")
     public String comments_url;
     @JsonProperty("comments")//numero de comentarios, si es 0 no buscaremos los comentarios
     public Integer comments;
@@ -189,6 +189,30 @@ public class Issue {
     }
 
     public void setReactions(Reactions reactions) {
+        this.reactions = reactions;
+    }
+
+    public static Issue ofIssueAddCommentList(Issue issue, List<Comment> commentList){
+        return new Issue(issue.getId(), issue.getNodeId(), issue.getTitle(), issue.getComments_url(), issue.getComments(), issue.getNumber(),
+                issue.getAuthor(),issue.getLabels(), issue.getState(), issue.getAssignee(), issue.getCreatedAt(), issue.getUpdatedAt(), issue.getClosedAt(),
+                issue.getBody(), issue.getReactions(), commentList);
+    };
+
+    public Issue(String id, String nodeId, String title, String comments_url, Integer comments, Integer number, User author, List<Label> labels, String state, User assignee, String createdAt, String updatedAt, Object closedAt, String body, Reactions reactions, List<Comment> commentList) {
+        this.id = id;
+        this.nodeId = nodeId;
+        this.title = title;
+        this.comments_url = comments_url;
+        this.comments = comments;
+        this.number = number;
+        this.author = author;
+        this.labels = labels;
+        this.state = state;
+        this.assignee = assignee;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.closedAt = closedAt;
+        this.body = body;
         this.reactions = reactions;
     }
 

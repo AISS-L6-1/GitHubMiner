@@ -1,27 +1,26 @@
 package aiss.GitHubMiner.transformers;
 
 import aiss.GitHubMiner.models.Comment;
+import aiss.GitHubMiner.models.User2;
 import aiss.GitHubMiner.services.UserService;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class CommentDef {
     public Integer id;
     public UserDef author;
-    public String createdAt;
-    public String updatedAt;
+    public String created_at;
+    public String updated_at;
     public String body;
 
 
-    public static CommentDef ofRaw(Comment comment, UserService userService) {
-        return new CommentDef(comment.getId(), userService.getUser(comment.getAuthor().getUsername()), comment.getCreatedAt(), comment.getUpdatedAt(), comment.getBody());
+    public static CommentDef transformaComment(Comment comment, UserDef userDef) {
+        return new CommentDef(comment.getId(), userDef, comment.getCreatedAt(), comment.getUpdatedAt(), comment.getBody());
     }
 
     public CommentDef(Integer id, UserDef author, String createdAt, String updatedAt, String body) {
         this.id = id;
         this.author = author;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.created_at = createdAt;
+        this.updated_at = updatedAt;
         this.body = body;
     }
 
@@ -30,8 +29,8 @@ public class CommentDef {
         return "CommentDef{" +
                 "id=" + id +
                 ", author=" + author +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
+                ", createdAt='" + created_at + '\'' +
+                ", updatedAt='" + updated_at + '\'' +
                 ", body='" + body + '\'' +
                 '}';
     }
@@ -52,20 +51,20 @@ public class CommentDef {
         this.author = author;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getUpdated_at() {
+        return updated_at;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 
     public String getBody() {

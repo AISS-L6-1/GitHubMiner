@@ -61,8 +61,8 @@ public class CommentService {
 
     @Autowired
     UserService userService;
-    //devuelve todos los comentarios de un Issue dado, el parametro es una propiedad de issue que nos facilit el acceso a los comments
-    public List<CommentDef> getAllCommentsFromIssue(String commentsUrl)
+    //devuelve todos los comentarios de un Issue dado, el parametro es una propiedad de issue que nos facilita el acceso a los comments
+    public List<Comment> getAllCommentsFromIssue(String commentsUrl)
             throws HttpClientErrorException {
 
         String token = Token.TOKEN;
@@ -84,6 +84,6 @@ public class CommentService {
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        return commentList.stream().map(comment -> CommentDef.ofRaw(comment, userService)).toList();
+        return commentList;
     }
 }

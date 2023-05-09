@@ -1,11 +1,7 @@
 package aiss.GitHubMiner.transformers;
 
-import aiss.GitHubMiner.models.Comment;
 import aiss.GitHubMiner.models.Issue;
-import aiss.GitHubMiner.services.CommentService;
-import aiss.GitHubMiner.services.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IssueDef {
@@ -15,26 +11,23 @@ public class IssueDef {
     private String title;
     private String description;
     private String state;
-    private String createdAt;
-    private String updatedAt;
-    private Object closedAt;
+    private String created_at;
+    private String updated_at;
+    private Object closed_at;
     private List<String> labels;
     private Integer upvotes;
     private Integer downvotes;
     private UserDef author;
     private UserDef assignee;
 
-    private List<CommentDef> listComments;
+    private List<CommentDef> comments;
 
 
     //metodo que usaremos para unir a nuestro Issue la lista de Comments que obtenemos con getCommentsFromId. Luego se hará una lista de IssueDef que será una propiedad de ProjectDef
-    public static IssueDef ofRaw(Issue issueRaw, CommentService commentService, UserService userService, Integer sinceDays, Integer maxPages){
-        List<Comment> commentList = new ArrayList<>();
-        return new IssueDef(issueRaw.getId(), issueRaw.getNodeId(), issueRaw.getTitle(), issueRaw.getBody(),
-                issueRaw.getState(), issueRaw.getCreatedAt(), issueRaw.getUpdatedAt(), issueRaw.getClosedAt(), extractLabels(issueRaw),
-                extractUpvotes(issueRaw), extractDownvotes(issueRaw), userService.getUser(issueRaw.getAuthor().getUsername()),
-                issueRaw.getAssignee() == null ? null : userService.getUser(issueRaw.getAssignee().getUsername()),
-                issueRaw.getComments() == 0 ? new ArrayList<>(): commentService.getAllCommentsFromIssue(issueRaw.getComments_url()));
+    public static IssueDef transformaIssue(Issue issue, List<CommentDef> listCommentsDef, UserDef author, UserDef assignee){
+        return new IssueDef(issue.getId(), issue.getNodeId(), issue.getTitle(), issue.getBody(),
+                issue.getState(), issue.getCreatedAt(), issue.getUpdatedAt(), issue.getClosedAt(), extractLabels(issue),
+                extractUpvotes(issue), extractDownvotes(issue), author, assignee, listCommentsDef);
     }
 
     private static Integer extractDownvotes(Issue issueRaw) {
@@ -55,15 +48,15 @@ public class IssueDef {
         this.title = title;
         this.description = description;
         this.state = state;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.closedAt = closedAt;
+        this.created_at = createdAt;
+        this.updated_at = updatedAt;
+        this.closed_at = closedAt;
         this.labels = labels;
         this.upvotes = upvotes;
         this.downvotes = downvotes;
         this.author = author;
         this.assignee = assignee;
-        this.listComments = listComments;
+        this.comments = listComments;
     }
 
     public String getId() {
@@ -106,28 +99,28 @@ public class IssueDef {
         this.state = state;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getUpdated_at() {
+        return updated_at;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 
-    public Object getClosedAt() {
-        return closedAt;
+    public Object getClosed_at() {
+        return closed_at;
     }
 
-    public void setClosedAt(Object closedAt) {
-        this.closedAt = closedAt;
+    public void setClosed_at(Object closed_at) {
+        this.closed_at = closed_at;
     }
 
     public List<String> getLabels() {
@@ -170,12 +163,12 @@ public class IssueDef {
         this.assignee = assignee;
     }
 
-    public List<CommentDef> getListComments() {
-        return listComments;
+    public List<CommentDef> getComments() {
+        return comments;
     }
 
-    public void setListComments(List<CommentDef> listComments) {
-        this.listComments = listComments;
+    public void setComments(List<CommentDef> comments) {
+        this.comments = comments;
     }
 
     @Override
@@ -186,15 +179,15 @@ public class IssueDef {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", closedAt=" + closedAt +
+                ", createdAt='" + created_at + '\'' +
+                ", updatedAt='" + updated_at + '\'' +
+                ", closedAt=" + closed_at +
                 ", labels=" + labels +
                 ", upvotes=" + upvotes +
                 ", downvotes=" + downvotes +
                 ", author=" + author +
                 ", assignee=" + assignee +
-                ", listComments=" + listComments +
+                ", listComments=" + comments +
                 '}';
     }
 }

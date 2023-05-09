@@ -1,6 +1,6 @@
 package aiss.GitHubMiner.services;
 
-import aiss.GitHubMiner.transformers.IssueDef;
+import aiss.GitHubMiner.models.Issue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ class IssueServiceTest {
     @Test
     @DisplayName("Test de getAllIssues")
     void getAllIssues() {
-        List<IssueDef> issueList = issueService.getAllIssues("spring-projects", "spring-framework",null,2);
+        List<Issue> issueList = issueService.getAllIssues("spring-projects", "spring-framework",null,2);
         assertFalse(issueList.isEmpty(), "The list of issues is empty.");
         System.out.println(issueList);
     }

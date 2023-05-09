@@ -1,50 +1,20 @@
-
 package aiss.GitHubMiner.transformers;
 
-import javax.annotation.Generated;
+import aiss.GitHubMiner.models.User;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "login",
-        "id",
-        "avatar_url",
-        "url",
-        "name"
-})
-@Generated("jsonschema2pojo")
 public class UserDef {
 
-    public UserDef(Integer id, String username, String avatar_url, String url, String name) {
-        this.id = id;
-        this.username = username;
-        this.avatar_url = avatar_url;
-        this.url = url;
-        this.name = name;
-    }
-    @JsonProperty("id")
-    public Integer id;
+    private String id;
+    private String username;
+    private String name;
+    private String avatar_url;
+    private String web_url;
 
-    @JsonProperty("login")
-    public String username;
-
-   @JsonProperty("avatar_url")
-    public String avatar_url;
-
-    @JsonProperty("url")
-    public String url;
-
-    @JsonProperty("name")
-    public String name;
-
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -56,22 +26,6 @@ public class UserDef {
         this.username = username;
     }
 
-    public String getAvatarUrl() {
-        return avatar_url;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatar_url = avatarUrl;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getName() {
         return name;
     }
@@ -80,14 +34,41 @@ public class UserDef {
         this.name = name;
     }
 
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+
+    public String getWeb_url() {
+        return web_url;
+    }
+
+    public void setWeb_url(String web_url) {
+        this.web_url = web_url;
+    }
+
+    public static UserDef transformaUser(User user, String name){
+        return new UserDef(user.getId(), user.getLogin(), name, user.getAvatar_url(), user.getUrl());
+    }
+    public UserDef(String id, String username, String name, String avatar_url, String web_url) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.avatar_url = avatar_url;
+        this.web_url = web_url;
+    }
+
     @Override
     public String toString() {
         return "UserDef{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
-                ", avatar_url='" + avatar_url + '\'' +
-                ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
+                ", avatar_url='" + avatar_url + '\'' +
+                ", web_url='" + web_url + '\'' +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package aiss.GitHubMiner.controller;
 import aiss.GitHubMiner.services.ProjectService;
 import aiss.GitHubMiner.transformers.ProjectDef;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,4 +32,11 @@ public class ProjectController {
     }
     //POST http://localhost:808X/api/projects/{id} // <-- este post lo tengo que redirigir a GHM o algo así?
 
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{owner}/{repoName}")
+    public void create(@PathVariable String owner,@PathVariable String repoName , @RequestParam("sinceIssues") Integer sinceIssues, @RequestParam("sinceCommits") Integer sinceCommits, @RequestParam("maxPages") Integer maxPages){
+        projectService.postProjectFromOwnerRepo(owner, repoName, sinceIssues, sinceCommits, maxPages);
+
+    }
 }

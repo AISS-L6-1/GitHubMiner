@@ -1,5 +1,6 @@
 package aiss.GitHubMiner.services;
 
+import aiss.GitHubMiner.models.Comment;
 import aiss.GitHubMiner.models.Issue;
 import aiss.GitHubMiner.transformers.IssueDef;
 import aiss.GitHubMiner.utils.Token;
@@ -27,7 +28,7 @@ public class IssueService {
     @Autowired
     UserService userService;
 
-    public List<IssueDef> getAllIssues(String owner, String repo, Integer sinceDays, Integer maxPages)
+    public List<Issue> getAllIssues(String owner, String repo, Integer sinceDays, Integer maxPages)
             throws HttpClientErrorException {
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo + "/issues";
 
@@ -59,12 +60,13 @@ public class IssueService {
             page++;
         }
         Integer finalMaxPages = maxPages;
-        List<IssueDef> issueDefList = issueList.stream().map(i -> IssueDef.ofRaw(i,commentService, userService, sinceDays, finalMaxPages)).toList();
-        return issueDefList;
+        return issueList;
     }
 
-    public List<IssueDef> getAllIssues(String projectUrl, Integer sinceDays, Integer maxPages)
+    public List<Issue> getAllIssues(String projectUrl, Integer sinceDays, Integer maxPages)
             throws HttpClientErrorException {
+
+
         String issuesUrl = projectUrl + "/issues";
 
         if (sinceDays != null) {
@@ -95,8 +97,18 @@ public class IssueService {
             page++;
         }
         Integer finalMaxPages = maxPages;
-        List<IssueDef> issueDefList = issueList.stream().map(i -> IssueDef.ofRaw(i,commentService, userService, sinceDays, finalMaxPages)).toList();
-        return issueDefList;
+
+        //RECOLECCION
+        List<Issue> issueList2 = new ArrayList<>();
+        for(Issue i : issueList){
+            List<Comment> issueComments = commentService.getAllCommentsFromIssue(i.getComments_url());
+            Issue issueWithComments = Issue.ofIssueAddCommentList(i,issueComments);
+            issueList2.add(issueWithComments);
+        }
+        //TRANFORMACION
+
+
+        return issueList;
     }
 
 }

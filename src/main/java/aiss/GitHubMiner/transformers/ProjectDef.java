@@ -1,6 +1,5 @@
 package aiss.GitHubMiner.transformers;
 
-import aiss.GitHubMiner.models.CommitDef;
 import aiss.GitHubMiner.models.Project;
 import aiss.GitHubMiner.services.CommitService;
 import aiss.GitHubMiner.services.IssueService;
@@ -12,22 +11,21 @@ public class ProjectDef {
     private String id;
     private String name;
     private String web_url;
-    private List<CommitDef> listCommits;
-    private List<IssueDef> listIssue;
+    private List<CommitDef> commits;
+    private List<IssueDef> issues;
 
-    //este metodo transforma un proyecto (modelo POJO) en el proyecto (modelo figura 2) al invocarlo se buscan todos los issues(que se transforman en IssueDef, ver getAllIssues) y todos los Comments del proyecto
-    public static ProjectDef ofRaw(Project project, CommitService commitService, IssueService issueService, Integer sinceIssues, Integer sinceCommits, Integer maxPages){
-        return new ProjectDef(project.getId(), project.getName(), project.getUrl(),
-                commitService.getAllCommits(project.getUrl(), sinceCommits, maxPages),
-                issueService.getAllIssues(project.getUrl(), sinceIssues, maxPages));
+    //este metodo transforma un proyecto (modelo POJO) en el proyecto (modelo figura 2) al invocarlo se buscan todos
+    //  los issues(que se transforman en IssueDef, ver getAllIssues) y todos los Comments del proyecto
+    public static ProjectDef transformaProject(Project project, List<CommitDef> commitDefList, List<IssueDef> issueDefList){
+        return new ProjectDef(project.getId(), project.getName(), project.getUrl(),commitDefList,issueDefList);
     }
 
     public ProjectDef(String id, String name, String web_url, List<CommitDef> listCommits, List<IssueDef> listIssue) {
         this.id = id;
         this.name = name;
         this.web_url = web_url;
-        this.listCommits = listCommits;
-        this.listIssue = listIssue;
+        this.commits = listCommits;
+        this.issues = listIssue;
     }
 
     public String getId() {
@@ -54,20 +52,20 @@ public class ProjectDef {
         this.web_url = web_url;
     }
 
-    public List<CommitDef> getListCommits() {
-        return listCommits;
+    public List<CommitDef> getCommits() {
+        return commits;
     }
 
-    public void setListCommits(List<CommitDef> listCommits) {
-        this.listCommits = listCommits;
+    public void setCommits(List<CommitDef> commits) {
+        this.commits = commits;
     }
 
-    public List<IssueDef> getListIssue() {
-        return listIssue;
+    public List<IssueDef> getIssues() {
+        return issues;
     }
 
-    public void setListIssue(List<IssueDef> listIssue) {
-        this.listIssue = listIssue;
+    public void setIssues(List<IssueDef> issues) {
+        this.issues = issues;
     }
 
     @Override
@@ -76,8 +74,8 @@ public class ProjectDef {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", web_url='" + web_url + '\'' +
-                ", listCommits=" + listCommits +
-                ", listIssue=" + listIssue +
+                ", Commits=" + commits +
+                ", Issues=" + issues +
                 '}';
     }
 }
