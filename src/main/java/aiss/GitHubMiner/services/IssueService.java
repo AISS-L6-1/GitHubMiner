@@ -59,7 +59,6 @@ public class IssueService {
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        Integer finalMaxPages = maxPages;
         return issueList;
     }
 
@@ -96,18 +95,6 @@ public class IssueService {
             siguientePagina = funciones.getNextPageUrl(responseEntity.getHeaders());
             page++;
         }
-        Integer finalMaxPages = maxPages;
-
-        //RECOLECCION
-        List<Issue> issueList2 = new ArrayList<>();
-        for(Issue i : issueList){
-            List<Comment> issueComments = commentService.getAllCommentsFromIssue(i.getComments_url());
-            Issue issueWithComments = Issue.ofIssueAddCommentList(i,issueComments);
-            issueList2.add(issueWithComments);
-        }
-        //TRANFORMACION
-
-
         return issueList;
     }
 
