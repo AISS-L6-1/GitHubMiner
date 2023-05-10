@@ -8,18 +8,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "url",
-        "html_url",
-        "issue_url",
         "id",
-        "node_id",
         "user",
         "created_at",
         "updated_at",
-        "author_association",
-        "body",
-        "reactions",
-        "performed_via_github_app"
+        "body"
 })
 @Generated("jsonschema2pojo")
 public class Comment {
