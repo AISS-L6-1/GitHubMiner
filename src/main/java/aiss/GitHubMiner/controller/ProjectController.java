@@ -30,9 +30,9 @@ public class ProjectController {
             throw new ProjectNotFoundException("Che no lo encontré");
         }
     }
-    //POST http://localhost:808X/api/projects/{id} // <-- este post lo tengo que redirigir a GHM o algo así?
 
 
+    //POST http://localhost:8082/api/projects/{owner}/{repo}
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{owner}/{repoName}")
     public ProjectDef create(@PathVariable String owner, @PathVariable String repoName, @RequestParam(value = "sinceIssues", defaultValue = "5") Integer sinceIssues, @RequestParam(value = "sinceCommits",defaultValue = "5") Integer sinceCommits, @RequestParam(value = "maxPages",defaultValue = "2") Integer maxPages)
@@ -45,7 +45,7 @@ public class ProjectController {
             throw new ProjectNotFoundException("Che no lo encontré");
 
         } catch (RestClientException e) {
-            throw new GitMinerNotRunningException("arrancá el gitMiner pelotudo");
+            throw new GitMinerNotRunningException("arrancá el GitMiner pelotudo");
         }
     }
 }
