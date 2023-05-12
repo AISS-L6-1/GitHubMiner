@@ -10,6 +10,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +29,11 @@ public class ProjectService {
     UserService userService;
 
     public ProjectDef getProjectFromOwnerRepo(String owner, String repo, Integer sinceIssues, Integer sinceCommits, Integer maxPages)
-            throws HttpClientErrorException {
+            throws HttpClientErrorException{
 
         String url = "https://api.github.com/repos" + "/" + owner + "/" + repo;
         String token = Token.TOKEN;
+
         HttpHeaders httpHeadersRequest = new HttpHeaders();
         httpHeadersRequest.setBearerAuth(token);
         HttpEntity<Project> httpRequest = new HttpEntity<>(null, httpHeadersRequest);
@@ -101,7 +103,7 @@ public class ProjectService {
     }
 
     public ProjectDef postProjectFromOwnerRepo(String owner, String repo, Integer sinceIssues, Integer sinceCommits, Integer maxPages)
-            throws RestClientException, HttpClientErrorException {
+            throws RestClientException{
 
         String url = "http://localhost:8080/gitminer/projects";
 

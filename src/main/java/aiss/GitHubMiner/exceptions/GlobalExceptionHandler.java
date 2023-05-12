@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(GitMinerNotRunningException.class)
@@ -41,6 +40,19 @@ public class GlobalExceptionHandler {
             ProjectNotFoundException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return message;
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    public @ResponseBody ErrorMessage authorizationExceptionHandler(
+            AuthorizationException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.UNAUTHORIZED.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false)
