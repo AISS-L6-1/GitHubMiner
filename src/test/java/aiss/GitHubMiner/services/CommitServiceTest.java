@@ -1,7 +1,6 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.Commit;
-import aiss.GitHubMiner.transformers.CommitDef;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

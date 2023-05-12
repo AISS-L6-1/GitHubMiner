@@ -1,8 +1,8 @@
 package aiss.GitHubMiner.services;
 
-import aiss.GitHubMiner.models.Comment;
+
 import aiss.GitHubMiner.models.Issue;
-import aiss.GitHubMiner.transformers.IssueDef;
+
 import aiss.GitHubMiner.utils.Token;
 import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;

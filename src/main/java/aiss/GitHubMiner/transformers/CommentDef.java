@@ -1,8 +1,6 @@
 package aiss.GitHubMiner.transformers;
 
 import aiss.GitHubMiner.models.Comment;
-import aiss.GitHubMiner.models.User2;
-import aiss.GitHubMiner.services.UserService;
 
 public class CommentDef {
     public Integer id;

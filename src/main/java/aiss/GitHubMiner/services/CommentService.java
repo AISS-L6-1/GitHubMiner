@@ -1,7 +1,6 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.Comment;
-import aiss.GitHubMiner.transformers.CommentDef;
 import aiss.GitHubMiner.utils.funciones;
 import aiss.GitHubMiner.utils.Token;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,6 @@
 package aiss.GitHubMiner.transformers;
 
 import aiss.GitHubMiner.models.Project;
-import aiss.GitHubMiner.services.CommitService;
-import aiss.GitHubMiner.services.IssueService;
 
 import java.util.List;
 

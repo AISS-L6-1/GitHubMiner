@@ -2,7 +2,6 @@ package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.User;
 import aiss.GitHubMiner.models.User2;
-import aiss.GitHubMiner.transformers.UserDef;
 import aiss.GitHubMiner.utils.Token;
 import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;

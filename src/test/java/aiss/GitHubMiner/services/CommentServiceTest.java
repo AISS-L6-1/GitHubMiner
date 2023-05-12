@@ -23,13 +23,11 @@ class CommentServiceTest {
         System.out.println(comments);
     }
 
-    /* Hay que ver el issues porque la url que da no es valida
     @Test
     @DisplayName("Test de getAllCommentsFromIssue")
     void getAllCommentsFromIssue() {
-        List<Comment> comments = commentService.getAllCommentsFromIssue("https://api.github.com/repos/spring-projects/spring-framework/issues/comments/1540742539");
+        List<Comment> comments = commentService.getAllCommentsFromIssue("https://api.github.com/repos/spring-projects/spring-framework/issues/30479/comments");
         assertFalse(comments.isEmpty(), "The list of comments is empty.");
         System.out.println(comments);
     }
-     */
 }

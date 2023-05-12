@@ -1,7 +1,6 @@
 package aiss.GitHubMiner.services;
 
 import aiss.GitHubMiner.models.Commit;
-import aiss.GitHubMiner.transformers.CommitDef;
 import aiss.GitHubMiner.utils.Token;
 import aiss.GitHubMiner.utils.funciones;
 import org.springframework.beans.factory.annotation.Autowired;
